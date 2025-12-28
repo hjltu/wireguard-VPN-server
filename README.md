@@ -64,13 +64,13 @@ http://<your-server-ip>:8822
 Log in using the password you set up using the generated password hash.
 
 ### 6. Setting Up Nginx Proxy Manager
-Access the manager at http://<your-ip>:81.
-Create a Proxy Host.
-Domain Name: e.g., vpn.yourdomain.com.
-Forward Hostname: Use the container name wg-easy (if both are on the same Docker network) or your server's local IP.
-Forward Port: 8822.
-SSL: Use the built-in "Request a new SSL Certificate" to enable HTTPS via Let's Encrypt.
-Remove Public Port: Once your proxy is working, you can remove the 8822:8822
+1. Access the manager at http://<your-ip>:81.
+2. Create a Proxy Host.
+3. Domain Name: e.g., vpn.yourdomain.com.
+4. Forward Hostname: Use the container name wg-easy (if both are on the same Docker network) or your server's local IP.
+5. Forward Port: 8822.
+6. SSL: Use the built-in "Request a new SSL Certificate" to enable HTTPS via Let's Encrypt.
+7. Remove Public Port: Once your proxy is working, you can remove the 8822:8822
 
 ### 7. Configure WireGuard Clients
 Once you're logged in, follow these steps to add a client:
