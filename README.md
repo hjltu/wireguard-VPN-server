@@ -1,6 +1,4 @@
 # wireguard-VPN-server
-I hope this little project will help you to aviod sensorship of some shit county like russian pederation
-
 
 
 ## Installation and Running Instructions
