@@ -1,0 +1,50 @@
+version: '3.8'
+services:
+  wg-easy:
+    image: ghcr.io/wg-easy/wg-easy:latest
+    container_name: wg-easy
+    environment:
+      - LANG=en
+      - WG_HOST="You server's IP address"
+      - PASSWORD_HASH="admin password hash"
+      - PORT=8822  # Port for the web interface
+      - WG_PORT=51822  # WireGuard port for VPN traffic
+      - WG_MTU=1400  # Set MTU value
+      - WG_KEEPALIVE=25  # Set Keepalive value for client
+    networks:
+      - net_easy
+    volumes:
+      - ./wg-easy/:/etc/wireguard
+    ports:
+      - "51822:51822/udp"
+      - "8822:8822/tcp"  # Uncomment if you need the web interface
+    cap_add:
+      - NET_ADMIN
+      - SYS_MODULE
+    sysctls:
+      - net.ipv4.conf.all.src_valid_mark=1
+      - net.ipv4.ip_forward=1
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8822"]
+      interval: 1m30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+
+  nginx-proxy-manager:
+    image: 'jc21/nginx-proxy-manager:latest'
+    container_name: nginx-proxy-manager
+    restart: unless-stopped
+    networks:
+      - net_easy
+    ports:
+      - '80:80'    # HTTP
+      - '81:81'    # Admin Web UI
+      - '443:443'  # HTTPS
+    volumes:
+      - ./data:/data
+      - ./letsencrypt:/etc/letsencrypt
+
+networks:
+  net_easy:
+    driver: bridge
